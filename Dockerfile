@@ -1,5 +1,9 @@
 FROM ubuntu:18.04
 
+ENV USER user
+ENV UID 2000
+RUN useradd --uid $UID $USER
+
 LABEL name="httpbin"
 LABEL version="0.9.2"
 LABEL description="A simple HTTP service."
@@ -21,4 +25,5 @@ RUN pip3 install --no-cache-dir /httpbin
 
 EXPOSE 8080
 
+USER $UID
 CMD ["gunicorn", "-b", "0.0.0.0:8080", "httpbin:app", "-k", "gevent"]
